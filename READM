@@ -1,0 +1,144 @@
+#include<iostream>
+using namespace std;
+struct L {
+	L* next;
+	int value;
+	int key;
+};
+class Linked {
+private:
+	int t = 0;
+	L* a = NULL;
+public:
+	void in(const int v) {
+		L* temp = new L;
+		temp->value = v;
+		temp->key = ++t;
+		temp->next = a;
+		a = temp;
+	}
+	void out(const int v) {
+		Linked a1;
+		int k = 1, k1 = 1;
+		for (Iterator it = begin(); it != end(); ++it)k++;
+		int* arr = new int[k];
+		for (Iterator it = begin(); it != end(); ++it) {
+			arr[k1] = *it;
+			k1++;
+		}
+		for (int i = 1; i <= k1 - 1; i++) {
+			if (arr[i] != v)a1.in(arr[i]);
+		}
+		a = a1.a;
+		delete[]arr;
+	}
+	void find(const int v) {
+		int k = 0;
+		for (Iterator i = begin(); i != end(); ++i) {
+			if (*i == v) {
+				cout << +i << endl;
+				k++;
+				break;
+			}
+		}
+		if (k == 0)cout << "Eror this number not found" << endl;
+	}
+	void ob(Linked a2) {
+		Linked a1;
+		for (Iterator it = begin(); it != end(); ++it)a1.in(*it);
+		for (Iterator it = a2.begin(); it != a2.end(); ++it)a1.in(*it);
+		a1.print();
+	}
+	void per(Linked a2) {
+		for (Iterator it = begin(); it != end(); ++it)
+		{
+			for (Iterator at = a2.begin(); at != a2.end(); ++at)
+			{
+				if (*at == *it)
+					cout << *it << " ";
+			}
+		}
+		cout << endl;
+	}
+	void print() {
+		for (Iterator it = begin(); it != end(); ++it) {
+			cout << *it << " ";
+		}
+		cout << endl;
+	}
+	class Iterator {
+	public:
+		Iterator(L* node) : m_node(node) { }
+		bool operator==(const Iterator& other) const {
+			if (this == &other) {
+				return true;
+			}
+			return m_node == other.m_node;
+		}
+		bool operator!=(const Iterator& other) const {
+			return !operator==(other);
+		}
+		int operator*() {
+			if (m_node) {
+				return m_node->value;
+			}
+			return int();
+		}
+		int operator+() const {
+			if (m_node) {
+				return m_node->key;
+			}
+			return int();
+		}
+		void operator++() {
+			if (m_node) {
+				m_node = m_node->next;
+			}
+		}
+		L* m_node;
+	};
+	Iterator begin() {
+		return Iterator(a);
+	};
+	Iterator end() {
+		return Iterator(NULL);
+	}
+};
+int main() {
+	Linked l, l1;
+	cout << "Input quantity of 1 lots" << endl;
+	int k = 0;
+	cin >> k;
+	cout << "Input element for first lots" << endl;
+	for (int i = 0; i <= k - 1; i++) {
+		int t = 0;
+		cin >> t;
+		l.in(t);
+	}
+	cout << "Input quantity of 2 lots" << endl;
+	cin >> k;
+	cout << "Input element for second lots" << endl;
+	for (int i = 0; i <= k - 1; i++) {
+		int t = 0;
+		cin >> t;
+		l1.in(t);
+	}
+	cout << "Input quantity of 1 lots for delete" << endl;
+	cin >> k;
+	for (int i = 0; i <= k - 1; i++) { cout << "Input element for delete" << endl; int t = 0; cin >> t; l.out(t); }
+	cout << "Input quantity of 2 lots for delete" << endl;
+	cin >> k;
+	for (int i = 0; i <= k - 1; i++) { cout << "Input element for delete" << endl; int t = 0; cin >> t; l1.out(t); }
+	cout << "First" << endl;
+	l.print();
+	cout << "Second" << endl;
+	l1.print();
+	cout << "Intersection" << endl;
+	l.per(l1);
+	cout << "Association" << endl;
+	l.ob(l1);
+	cout << "Find element in lots on position(Input lots 1 or 2)" << endl;
+	int f = 0; cin >> f;
+	if (f == 1) { cout << "Input element for find" << endl; int t = 0; cin >> t; l.find(t); }
+	else if (f == 2) { cout << "Input element for find" << endl; int t = 0; cin >> t; l1.find(t); }
+	else { cout << "Erorr incorect input " << endl; }
