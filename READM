@@ -1,144 +1,259 @@
 #include<iostream>
+#include <string>
+#include<set>
+#include<fstream>
 using namespace std;
-struct L {
-	L* next;
-	int value;
-	int key;
-};
-class Linked {
-private:
-	int t = 0;
-	L* a = NULL;
+
+class Train {
 public:
-	void in(const int v) {
-		L* temp = new L;
-		temp->value = v;
-		temp->key = ++t;
-		temp->next = a;
-		a = temp;
+	int Number;
+	string Station;
+	string Date;
+	Train() {
+		Number=0;
+		Station="";
+		Date="";
 	}
-	void out(const int v) {
-		Linked a1;
-		int k = 1, k1 = 1;
-		for (Iterator it = begin(); it != end(); ++it)k++;
-		int* arr = new int[k];
-		for (Iterator it = begin(); it != end(); ++it) {
-			arr[k1] = *it;
-			k1++;
-		}
-		for (int i = 1; i <= k1 - 1; i++) {
-			if (arr[i] != v)a1.in(arr[i]);
-		}
-		a = a1.a;
-		delete[]arr;
+	Train(int a, string b, string t3) {
+		Number=a;
+		Station=b;
+		Date=t3;
 	}
-	void find(const int v) {
-		int k = 0;
-		for (Iterator i = begin(); i != end(); ++i) {
-			if (*i == v) {
-				cout << +i << endl;
-				k++;
-				break;
-			}
-		}
-		if (k == 0)cout << "Eror this number not found" << endl;
-	}
-	void ob(Linked a2) {
-		Linked a1;
-		for (Iterator it = begin(); it != end(); ++it)a1.in(*it);
-		for (Iterator it = a2.begin(); it != a2.end(); ++it)a1.in(*it);
-		a1.print();
-	}
-	void per(Linked a2) {
-		for (Iterator it = begin(); it != end(); ++it)
-		{
-			for (Iterator at = a2.begin(); at != a2.end(); ++at)
-			{
-				if (*at == *it)
-					cout << *it << " ";
-			}
-		}
-		cout << endl;
-	}
-	void print() {
-		for (Iterator it = begin(); it != end(); ++it) {
-			cout << *it << " ";
-		}
-		cout << endl;
-	}
-	class Iterator {
-	public:
-		Iterator(L* node) : m_node(node) { }
-		bool operator==(const Iterator& other) const {
-			if (this == &other) {
-				return true;
-			}
-			return m_node == other.m_node;
-		}
-		bool operator!=(const Iterator& other) const {
-			return !operator==(other);
-		}
-		int operator*() {
-			if (m_node) {
-				return m_node->value;
-			}
-			return int();
-		}
-		int operator+() const {
-			if (m_node) {
-				return m_node->key;
-			}
-			return int();
-		}
-		void operator++() {
-			if (m_node) {
-				m_node = m_node->next;
-			}
-		}
-		L* m_node;
-	};
-	Iterator begin() {
-		return Iterator(a);
-	};
-	Iterator end() {
-		return Iterator(NULL);
+	void const operator ()(int a, string b, string t3) {
+		Number=a;
+		Station=b;
+		Date=t3;
 	}
 };
+void pre_print() {
+	cout << "NUMBER OF TRAIN " << "\t";
+	cout << "STATION " << "\t";
+	cout << "DATE (DD.MM.YY)" << endl;
+}
+void print1(Train& tr) {
+	cout << tr.Number << "\t" << "\t" << "\t";
+	cout << tr.Station << "\t" << "\t";
+	cout << tr.Date << endl;
+}
+bool create(Train& tre,set<string>&Station) {
+	int a;
+	int k1=0;
+	string t3;
+	string b;
+	cout << "Input number of train " << endl;
+	while (true)
+	{
+		cin >> a;
+		if (!cin)
+		{
+			cout << "INCORRECT" << endl;
+			cin.clear();
+			while (cin.get() != '\n');
+		}
+		else break;
+	}
+	//cin >> a;
+	cout << "Input name of station (10simbol)" << endl;
+	char t1[10];
+	cin >> t1; b = t1;
+	for (set<string>::iterator iter = Station.begin(); iter != Station.end(); ++iter) { if (*iter == b)k1++; }
+	while (k1 == 0) 
+	{
+		cout << "Repeat correct name of station (10simbol)" << endl;
+		char t1[10];
+		cin >> t1; b = t1;
+		k1 == 0;
+		for (set<string>::iterator iter = Station.begin(); iter != Station.end(); ++iter) { if (*iter == b)k1++; }
+	} ;
+	cout << "Input departure time (DD,MM,YY)" << endl;
+	char t[10];
+	cin >> t;
+	t3 = t;
+	tre(a, b, t3);
+	return 1;
+}
+void printN(Train& tr, int N) {
+	if (tr.Number == N) {
+		cout << tr.Number << "\t" << "\t" << "\t";
+		cout << tr.Station << "\t" << "\t";
+		cout << tr.Date << endl;
+	}
+}
+void printS(Train& tr, string st) {
+	if (tr.Station == st) {
+		cout << tr.Number << "\t" << "\t" << "\t";
+		cout << tr.Station << "\t" << "\t";
+		cout << tr.Date << endl;
+	}
+}
+void createF(set<string>& TStation) {
+	string tb, buff;
+	char t[50];
+	cout << "Input name file" << endl;
+	cin >> t; tb = t;
+	string* m;
+	int k = 0, i = 0;
+	ifstream fin(tb); 
+	while (getline(fin, buff))k++;
+	m = new string[k];
+	fin.close();
+	Train* tr = new Train[k];
+	ifstream fin1(tb);
+	while (getline(fin1, m[i])) {
+		int a = 0, it = 0, it1 = 0, it2 = 0,k1=0;
+		char t1[10];
+		char t2[10];
+		char t3[10];
+		string ftin;
+		string f1tin;
+		while (m[i][it] != ' ') { t1[it] = m[i][it]; it++; }
+		a = atoi(t1);
+		while (m[i][it + it1 + 1] != ' ') { t2[it1] = m[i][it + it1 + 1]; it1++; }
+		for (int j = it1; j <= 9; j++)t2[j] = '\0';
+		ftin = t2;
+		while (m[i][it + it1 + 2 + it2] != '\0') { t3[it2] = m[i][it + it1 + 2 + it2]; it2++; }
+		for (int j = it2; j <= 9; j++)t3[j] = '\0';
+		f1tin = t3;
+		for (set<string>::iterator iter = TStation.begin(); iter != TStation.end(); ++iter) { if (*iter == ftin)k1++; }
+		while (k1 == 0) {
+			cout << "Repeat correct name of station (10simbol) for reis number:"; cout << a<<endl;
+			char t11[10];
+			cin >> t11; ftin = t11;
+			k1 == 0;
+			for (set<string>::iterator iter = TStation.begin(); iter != TStation.end(); ++iter) { if (*iter == ftin)k1++; }
+		};
+		tr[i](a, ftin, f1tin);
+		print1(tr[i]);
+		i++;
+	}
+	delete[]m;
+	int lk;
+	char lkk = 'N';
+	do {
+		cout << "Chose the output tipe(1-all, 2-the number, 3-the name of station)" << endl;
+		cin >> lk;
+		if (lk == 1) {
+			pre_print();
+			for (int i = 0; i <= k - 1; i++)
+				print1(tr[i]);
+		}
+		else if (lk == 2) {
+			int N;
+			cout << "Input number of train" << endl;
+			while (true)
+			{
+				cin >> N;
+				if (!cin)
+				{
+					cout << "INCORRECT" << endl;
+					cin.clear();
+					while (cin.get() != '\n');
+				}
+				else break;
+			}
+			pre_print();
+			for (int i = 0; i <= k - 1; i++)
+				printN(tr[i], N);
+		}
+		else if (lk == 3) {
+			char t[10];
+			cout << "Input name of station (10simbol)" << endl;
+			cin >> t;
+			string t1 = t;
+			pre_print();
+			for (int i = 0; i <= k - 1; i++)
+				printS(tr[i], t1);
+		}
+		else cout << "Incorrect tipe of date" << endl;
+		cout << "Do you want to continue?(Y/N)" << endl;
+		cin >> lkk;
+		if (lkk == 'N' || lkk == 'n')break;
+		if (lkk != 'y' || lkk != 'Y' || lkk != 'N' || lkk != 'n')cout << "Incorrect tipe of date" << endl;
+	} while (lkk == 'y' || lkk == 'Y');
+	delete[]tr;
+	fin1.close();
+}
 int main() {
-	Linked l, l1;
-	cout << "Input quantity of 1 lots" << endl;
-	int k = 0;
-	cin >> k;
-	cout << "Input element for first lots" << endl;
-	for (int i = 0; i <= k - 1; i++) {
-		int t = 0;
-		cin >> t;
-		l.in(t);
+	set<string>Station = { "tombov","pol'sk","moskov","taganrog","kirov","vershki","brest","timirov","per'm","troyka","lugansk","donbas","negev","atrov ","ST_peterb","Ekaterenb","palatka","mirnuy","atrov"};
+	int f = 0, k = 0;
+	cout << "Chouse the form of input" << endl;
+	cout << "Manual input 1 or Input from file 2" << endl;
+	cin >> f;
+	Train* tre;
+	if (f == 1) {
+		cout << "Input quantity of train" << endl;
+		while (true)
+		{
+			cin >> k;
+			if (!cin)
+			{
+				cout << "INCORRECT" << endl;
+				cin.clear();
+				while (cin.get() != '\n');
+			}
+			else break;
+		}
+		tre = new Train[k];
+		for (int i = 0; i <= k - 1; i++) {
+			create(tre[i],Station);
+		}
+		int lk = 0;
+		char lkk = 'N';
+		do {
+			cout << "Chose the output tipe(1-all, 2-the number, 3-the name of station)" << endl;
+			while (true)
+			{
+				cin >> lk;
+				if (!cin)
+				{
+					cout << "INCORRECT" << endl;
+					cin.clear();
+					while (cin.get() != '\n');
+				}
+				else break;
+			}
+			if (lk == 1) {
+				pre_print();
+				for (int i = 0; i <= k - 1; i++)
+					print1(tre[i]);
+			}
+			else if (lk == 2) {
+				
+				cout << "Input number of train" << endl;
+				int N;
+				while (true){
+					cin >> N;
+					if (!cin)
+					{
+						cout << "INCORRECT" << endl;
+						cin.clear();
+						while (cin.get() != '\n');
+					}
+					else break;
+				};
+				pre_print();
+				for (int i = 0; i <= k - 1; i++)
+					printN(tre[i], N);
+			}
+			else if (lk == 3) {
+				char t[10];
+				cout << "Input name of station (10simbol)" << endl;
+				cin >> t;
+				string t1 = t;
+				pre_print();
+				for (int i = 0; i <= k - 1; i++)
+					printS(tre[i], t1);
+			}
+			else cout << "Incorrect tipe of date" << endl;
+			cout << "Do you want to continue?(Y/N)" << endl;
+			cin >> lkk;
+			if (lkk == 'N' || lkk == 'n')break;
+			if (lkk != 'y' || lkk != 'Y' || lkk != 'N' || lkk != 'n')cout << "Incorrect tipe of date" << endl;
+		} while (lkk == 'Y' || lkk == 'y');
+		delete[]tre;
 	}
-	cout << "Input quantity of 2 lots" << endl;
-	cin >> k;
-	cout << "Input element for second lots" << endl;
-	for (int i = 0; i <= k - 1; i++) {
-		int t = 0;
-		cin >> t;
-		l1.in(t);
+	if (f == 2) {
+		createF(Station);
 	}
-	cout << "Input quantity of 1 lots for delete" << endl;
-	cin >> k;
-	for (int i = 0; i <= k - 1; i++) { cout << "Input element for delete" << endl; int t = 0; cin >> t; l.out(t); }
-	cout << "Input quantity of 2 lots for delete" << endl;
-	cin >> k;
-	for (int i = 0; i <= k - 1; i++) { cout << "Input element for delete" << endl; int t = 0; cin >> t; l1.out(t); }
-	cout << "First" << endl;
-	l.print();
-	cout << "Second" << endl;
-	l1.print();
-	cout << "Intersection" << endl;
-	l.per(l1);
-	cout << "Association" << endl;
-	l.ob(l1);
-	cout << "Find element in lots on position(Input lots 1 or 2)" << endl;
-	int f = 0; cin >> f;
-	if (f == 1) { cout << "Input element for find" << endl; int t = 0; cin >> t; l.find(t); }
-	else if (f == 2) { cout << "Input element for find" << endl; int t = 0; cin >> t; l1.find(t); }
-	else { cout << "Erorr incorect input " << endl; }
+}
+
