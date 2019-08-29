@@ -1,0 +1,4 @@
+﻿  Source.cpp
+C:\Users\ASUS\Desktop\GITHUB\-railway-work-example\-railway-work-example\Source.cpp(65,6): warning C4553:  "==": результат выражения не используется; вы хотели использовать "="?
+C:\Users\ASUS\Desktop\GITHUB\-railway-work-example\-railway-work-example\Source.cpp(122,7): warning C4553:  "==": результат выражения не используется; вы хотели использовать "="?
+  -railway-work-example.vcxproj -> C:\Users\ASUS\Desktop\GITHUB\-railway-work-example\Debug\-railway-work-example.exe
